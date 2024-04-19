@@ -15,7 +15,7 @@ client_secret = os.getenv("CLIENT_SECRET")
 #Print the API key to make sure it was loaded correctly
 #print(client_id, client_secret)
 
-#Create a function to get the token
+#Create a function to get the acces token
 def get_auth_token():
     auth_str = client_id + ':' + client_secret
     auth_byte = auth_str.encode('utf-8')
@@ -40,11 +40,18 @@ def get_auth_token():
     
     return token
 
+#We can now call the function to get the authentication token and give us acces to all rest of the API
 token = get_auth_token()
-print(token)
+#print(token)
 
 #Now when we have the authentication token we can use it to make requests to the Spotify API.
 def get_auth_header():
     return {"Authorization": "Bearer " + token}
     
 #Search for an artist
+
+def get_genres(token, limit=50, offset=0):
+    url = "https://api.spotify.com/v1/browse/categories"
+    headers = {"Authorization": "Bearer " + token}
+    res = post(url, headers=headers)
+    return json.loads(res.content)
