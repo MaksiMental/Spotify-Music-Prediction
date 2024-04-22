@@ -41,5 +41,37 @@ def get_auth_token():
 
 # We can now call the function to get the authentication token and give us access to all rest of the API
 token = get_auth_token()
+
+
+
+client_credentials_mgt = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_mgt)
+
+
+
+
+
+
+
+
+
+
+# Function to search for an artist and get top tracks
+def get_genres(token, limit=50, offset=0):
+    # endpoint we are using to get the genres. 
+    url = "https://api.spotify.com/v1/browse/categories"
+    headers = {"Authorization": "Bearer " + token}
+    params = {"limit": limit, "offset": offset}
+    res = requests.get(url, headers=headers, params=params)
+    genres_data = res.json()
+    genres = [(category['id'], category['name']) for category in genres_data['categories']['items']]
+    return genres
+
+# Call the function and assign its return value to 'genres'
+genres = get_genres(token)
+
+print("list of genres")
+for genre_id, genre_name in genres:
+    print(f"{genre_id}: {genre_name}")
     
     
