@@ -30,3 +30,5 @@ env2/
 # Miscellaneous
 .DS_Store
 Thumbs.db
+
+.cache
